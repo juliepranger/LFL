@@ -1,0 +1,14 @@
+html {
+	font-family: Helvetica;
+	text-align: center;
+	margin: 0 auto;
+}
+
+h2 {
+	font-size: 44px;
+	padding-top: 10px;
+}
+
+#map-canvas {
+	height: 500px;
+}
