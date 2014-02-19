@@ -9,13 +9,15 @@ var addresses = ["Times Square, Manhattan, NY 10036",
 var coordinates = [];
 var myLatLng;
 var distances = [];
+var addCoords;
 
-//let's find Venice, CA, shall we? myLatLng = Venice, CA
+//let's set Venice, CA to a variable, and set up our map preferences
 function initialize() {
 	var myLatLng = new google.maps.LatLng(33.988233, -118.459086);
 	var mapOptions = {
-		center: myLatLng,
-		zoom: 16,
+		zoom: 2,
+    center: new google.maps.LatLng(30, -115),
+    mapTypeId: google.maps.MapTypeId.TERRAIN,
 		streetViewControl: false,
 		zoomControl: true,
 		panControl: false,
@@ -23,16 +25,9 @@ function initialize() {
 	};
 	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-	//only execute after API has fully loaded!
-	function loadScript() {
-	  var script = document.createElement('script');
-	  script.type = 'text/javascript';
-	  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
-	      'callback=initialize';
-	  document.body.appendChild(script);
-	};
-	window.onload = loadScript;
 }; //end of initialize
+
+
 	
 //how far away is a specific address from the map center?
 $(document).ready(function(myLatLng) {
@@ -54,6 +49,21 @@ $(document).ready(function(myLatLng) {
 					    return 1;
 					  return 0;
 					};
+
+				var placeCoords = [
+			    myLatLng,
+			    addCoords
+			   ];
+
+			  var journeyPath = new google.maps.Polyline({
+			    path: placeCoords,
+			    geodesic: true,
+			    strokeColor: '#FF0000',
+			    strokeOpacity: 1.0,
+			    strokeWeight: 1
+			  });
+			  journeyPath.setMap(map);
+
 				//wait to compare until we put anything to the DOM
 		    if(distances.length == 7) {
 					distances.sort(compare);
