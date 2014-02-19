@@ -37,29 +37,31 @@ function initialize() {
 //how far away is a specific address from the map center?
 $(document).ready(function(myLatLng) {
 	var myLatLng = new google.maps.LatLng(33.988233, -118.459086);
+	// use google geometry library to turn the address into lat and long
 	var getStuff = function(thisAddress){
 			$.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address='+thisAddress+'&sensor=false', null, function (data) {
 		    var p = data.results[0].geometry.location;
 		    //every location, set to a variable name so we can compute the distance between
 		    var addCoords = new google.maps.LatLng(p.lat, p.lng); 
-		   // console.log(addCoords);
-		    //push coordinates from each location (addCoords) to the coordinates array
-		   // coordinates.push(addCoords);
+
 		    //every location's distance from LFL office computed, converted into kilometers
 				distances.push({ place: thisAddress, distance: (google.maps.geometry.spherical.computeDistanceBetween(myLatLng, addCoords)/1000)});
 		    //sort these distances in numeric, ascending order
-		    //distances.sort(function(a,b){return a-b});
-		  //  console.log(distances);
-
+		    var compare = function(a,b) {
+					  if (a.distance < b.distance)
+					     return -1;
+					  if (a.distance > b.distance)
+					    return 1;
+					  return 0;
+					};
+				//wait to compare until we put anything to the DOM
 		    if(distances.length == 7) {
-		    	for (var i = 0; i < distances.length; i++) {
-		    	$("#places").append((i+1) + ".  " + distances[i].place + '</br>' + distances[i].distance.toFixed(2) + ' kilometers' + '</br>');
+					distances.sort(compare);
+					//now we can use jQuery to put the place name/distance from LFL office to the right div
+					for (var i = 0; i < distances.length; i++) {
+		    		$("#places").append((i+1) + '.  ' + distances[i].place + '</br>' + distances[i].distance.toFixed(2) + ' kilometers' + '</br>');
 		    	};
-		    };
-		    new google.maps.Marker({
-		      position: addCoords,
-		      map: map
-		  	});
+				};
 		  });
 		};
 	
@@ -70,7 +72,5 @@ $(document).ready(function(myLatLng) {
 
 	}
 });
-
-	//list addresses in order from closest to furthest away
 
 
