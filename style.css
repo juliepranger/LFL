@@ -4,6 +4,10 @@ html {
 	margin: 0 auto;
 }
 
+body {
+	background-color: #FAFAF7;
+}
+
 h2 {
 	font-size: 44px;
 	padding-top: 10px;

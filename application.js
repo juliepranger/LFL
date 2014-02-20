@@ -13,7 +13,6 @@ var addCoords;
 
 //let's set Venice, CA to a variable, and set up our map preferences
 function initialize() {
-	var myLatLng = new google.maps.LatLng(33.988233, -118.459086);
 	var mapOptions = {
 		zoom: 2,
     center: new google.maps.LatLng(30, -115),
@@ -26,8 +25,6 @@ function initialize() {
 	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
 }; //end of initialize
-
-
 	
 //how far away is a specific address from the map center?
 $(document).ready(function(myLatLng) {
@@ -38,7 +35,6 @@ $(document).ready(function(myLatLng) {
 		    var p = data.results[0].geometry.location;
 		    //every location, set to a variable name so we can compute the distance between
 		    var addCoords = new google.maps.LatLng(p.lat, p.lng); 
-
 		    //every location's distance from LFL office computed, converted into kilometers
 				distances.push({ place: thisAddress, distance: (google.maps.geometry.spherical.computeDistanceBetween(myLatLng, addCoords)/1000)});
 		    //sort these distances in numeric, ascending order
@@ -49,7 +45,9 @@ $(document).ready(function(myLatLng) {
 					    return 1;
 					  return 0;
 					};
+				//set up data visualization, used https://developers.google.com/maps/documentation/javascript/examples/polyline-simple 
 
+				//using addCoords lets us iterate through placeCoords
 				var placeCoords = [
 			    myLatLng,
 			    addCoords
@@ -60,7 +58,7 @@ $(document).ready(function(myLatLng) {
 			    geodesic: true,
 			    strokeColor: '#FF0000',
 			    strokeOpacity: 1.0,
-			    strokeWeight: 1
+			    strokeWeight: 1.25
 			  });
 			  journeyPath.setMap(map);
 
