@@ -77,8 +77,5 @@ $(document).ready(function(myLatLng) {
 	//loop through each address and pull out the lat and lng
 	for(var x = 0; x < adlength; x++) {
 		getStuff(addresses[x]);
-
 	}
 });
-
-
